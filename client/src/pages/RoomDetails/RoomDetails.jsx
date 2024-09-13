@@ -15,7 +15,7 @@ const room = {
   bathrooms: '1',
   bedrooms: '1',
   host: {
-    name: 'Shakil Ahmed Atik',
+    name: 'Mahamudul Hasan Mehedi',
     image:
       'https://lh3.googleusercontent.com/a/ACg8ocJL_MZYn95fgATgHT_bWH8Em42gc8quAT57rhhHo4w9-lc-x8G-=s96-c',
     email: 'shakilatik.ph@gmail.com',
