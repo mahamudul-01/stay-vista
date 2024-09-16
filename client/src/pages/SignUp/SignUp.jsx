@@ -4,6 +4,9 @@ import useAuth from '../../hooks/useAuth'
 import axios from 'axios'
 import toast from 'react-hot-toast'
 import { TbFidgetSpinner } from "react-icons/tb";
+import { LiaMehRollingEyes } from "react-icons/lia";
+import { PiSmileyXEyes } from "react-icons/pi";
+import { useState } from 'react'
 
 const SignUp = () => {
   const navigate=useNavigate()
@@ -62,6 +65,13 @@ const SignUp = () => {
       toast.error(err.message)
     }
   }
+
+  // hide and see password
+  const [hide,setHide]=useState(true)
+  const handlePassword=()=>{
+    setHide(prevHide => !prevHide)
+    console.log(hide);
+  }
   return (
     <div className='flex justify-center items-center min-h-screen'>
       <div className='flex flex-col max-w-md p-6 rounded-md sm:p-10 bg-gray-100 text-gray-900'>
@@ -119,8 +129,9 @@ const SignUp = () => {
                   Password
                 </label>
               </div>
-              <input
-                type='password'
+             <div className='relative'>
+             <input
+                type={hide?`password`:`text`}
                 name='password'
                 autoComplete='new-password'
                 id='password'
@@ -128,6 +139,13 @@ const SignUp = () => {
                 placeholder='*******'
                 className='w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-rose-500 bg-gray-200 text-gray-900'
               />
+              
+              {hide?<PiSmileyXEyes onClick={handlePassword} size={25} className='w-full absolute bottom-2 -right-36 text-gray-700' /> :<LiaMehRollingEyes onClick={handlePassword} size={25} className='w-full absolute bottom-2 -right-36 text-gray-700' />}
+              
+              
+
+             </div>
+              
             </div>
           </div>
 
