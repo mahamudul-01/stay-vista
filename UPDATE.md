@@ -2,7 +2,7 @@
 **Assessment 1:**
 - Complete initial project setup.
 
-## 16/09/202
+## 18/09/202
 **Assessment 2:**
 - Implement a GET route to retrieve room data.
 - Fetch data from the server using TanStack Query.
