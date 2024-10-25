@@ -34,8 +34,9 @@ const SignUp = () => {
       console.log(data.data.display_url);
         
       // user registration 
+      //eslint-disable-next-line no-unused-vars
       const result= await createUser(email,password)
-      console.log(result);
+      
 
       
       // save user name and photo 
@@ -70,7 +71,7 @@ const SignUp = () => {
   const [hide,setHide]=useState(true)
   const handlePassword=()=>{
     setHide(prevHide => !prevHide)
-    console.log(hide);
+    
   }
   return (
     <div className='flex justify-center items-center min-h-screen'>
@@ -136,7 +137,7 @@ const SignUp = () => {
                 autoComplete='new-password'
                 id='password'
                 required
-                placeholder='*******'
+                placeholder={hide? `******`: ``}
                 className='w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-rose-500 bg-gray-200 text-gray-900'
               />
               
