@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 
 import useAuth from "../../hooks/useAuth";
@@ -11,39 +11,66 @@ import { useState } from "react";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { signInWithGoogle, signIn,  loading, setLoading } =
+
+  const location=useLocation()
+  const from=location?.state || '/'
+  const { signInWithGoogle, signIn,  loading, setLoading,resetPassword} =
     useAuth();
+
+  const [email,seEmail]=useState('')
   //sign in function
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
-
+   
     try {
       setLoading(true);
       //sign in user function
       await signIn(email,password);
 
-      navigate("/");
+      navigate(from);
       toast.success("Sign up success !");
     } catch (err) {
       console.log(err);
       toast.error(err.message);
+      setLoading(false)
+
     }
   };
+
+  //handle reset password
+  const handleResetPassword=async()=>{
+
+    if(!email) return toast.error('Please write your email first')
+    try{
+      await resetPassword(email)
+      toast.success('Your request success check your mail box')
+      setLoading(false)
+      console.log(email);
+    }
+    catch(err){
+      console.log(err);
+      toast.error(err.message);
+      setLoading(false)
+
+    }
+    
+  }
   // google sign in
   const handleGoogleSignIn = async () => {
     try {
-      //  setLoading(true)
+       setLoading(true)
       await signInWithGoogle();
 
-      navigate("/");
+      navigate(from);
       toast.success("Sign in success !");
     } catch (err) {
       console.log(err);
       toast.error(err.message);
       setLoading(false)
+      
     }
   };
 
@@ -75,6 +102,7 @@ const Login = () => {
                 type="email"
                 name="email"
                 id="email"
+                onBlur={e => seEmail(e.target.value)}
                 required
                 placeholder="Enter Your Email Here"
                 className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-rose-500 bg-gray-200 text-gray-900"
@@ -130,7 +158,7 @@ const Login = () => {
           </div>
         </form>
         <div className="space-y-1">
-          <button className="text-xs hover:underline hover:text-rose-500 text-gray-400">
+          <button onClick={handleResetPassword} className="text-xs hover:underline hover:text-rose-500 text-gray-400">
             Forgot password?
           </button>
         </div>

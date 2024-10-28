@@ -12,5 +12,14 @@
 - Implement an image upload feature for the sign-up process.
 - Develop the sign-up functionality.
 - Display a sign-up confirmation message.
-- Add functionality to toggle the visibility of the password field.
+- Add functionality to toggle the visibility of the password field. 
 - https://github.com/mahamudul-01
+
+## 25/10/202
+**Assessment 2:**
+- implement login function
+- implement date range calender
+- protect the view room  details for users
+- set up password reset function 
+- implement dashboard sidebar
+
