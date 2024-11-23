@@ -23,3 +23,9 @@
 - set up password reset function 
 - implement dashboard sidebar
 
+## 22/11/202
+- add room form
+- implement calender in add room form
+- add room data in DB
+- add delete function
+- calculate date difference using date fns

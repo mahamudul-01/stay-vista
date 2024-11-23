@@ -92,6 +92,32 @@ async function run() {
 
     })
 
+    //save add room data
+    app.post('/room', async (req,res)=>{
+      const roomData= req.body
+      const result = await roomsCollection.insertOne(roomData)
+      res.send(result)
+    })
+
+    //get all rooms for host
+    app.get('/my-listings/:email', async(req,res)=>{
+      const email=req.params.email
+      let query={}
+    
+      const result=await roomsCollection.find(query).toArray()
+      res.send(result)
+      console.log(email);
+
+    })
+
+    //delete a room
+    app.delete('/room/:id', async (req,res)=>{
+      const id= req.params.id
+      const query={_id: new ObjectId(id)}
+      const result= await roomsCollection.deleteOne(query)
+      res.send(result)
+    })
+
     //get a single room data by id
     app.get('/room/:id', async(req,res)=>{
       const id=req.params.id

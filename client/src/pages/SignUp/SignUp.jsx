@@ -1,12 +1,13 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { FcGoogle } from 'react-icons/fc'
 import useAuth from '../../hooks/useAuth'
-import axios from 'axios'
+
 import toast from 'react-hot-toast'
 import { TbFidgetSpinner } from "react-icons/tb";
 import { LiaMehRollingEyes } from "react-icons/lia";
 import { PiSmileyXEyes } from "react-icons/pi";
 import { useState } from 'react'
+import { imageUpload } from '../../api/utils'
 
 const SignUp = () => {
   const navigate=useNavigate()
@@ -20,18 +21,13 @@ const SignUp = () => {
     const password=form.password.value 
     const image=form.image.files[0]
     console.log(name,email,password);
-    // console.log(image);
-    const formData=new FormData()
-    formData.append('image',image)
+    
     
 
     try{
       // upload image
       setLoading(true)
-      const {data}= await axios.post(`https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMAGEBB_API_KEY}`,
-        formData
-      )
-      console.log(data.data.display_url);
+      const image_url= await imageUpload(image)
         
       // user registration 
       //eslint-disable-next-line no-unused-vars
@@ -40,7 +36,7 @@ const SignUp = () => {
 
       
       // save user name and photo 
-      await updateUserProfile(name,data.data.display_url)
+      await updateUserProfile(name,image_url)
 
       navigate('/')
       toast.success('Sign up success !')
