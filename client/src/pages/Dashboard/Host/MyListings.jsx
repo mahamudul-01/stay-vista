@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 
 const MyListings = () => {
   const axiosSecure = useAxiosSecure();
-  const { user } = useAuth();
+  const { user,loading } = useAuth();
     //fetch room data
   const { data: rooms = [], isLoading,refetch } = useQuery({
     queryKey: ["rooms", user?.email],
@@ -41,7 +41,7 @@ const MyListings = () => {
     }
     console.log(id);
   }
-  if (isLoading) return <LoadingSpinner></LoadingSpinner>;
+  if (isLoading || loading) return <LoadingSpinner></LoadingSpinner>;
 
   return (
     <>

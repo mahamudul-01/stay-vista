@@ -29,3 +29,4 @@
 - add room data in DB
 - add delete function
 - calculate date difference using date fns
+- save user data in db with role
