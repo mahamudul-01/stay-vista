@@ -132,6 +132,9 @@ async function run() {
       res.send(result);
     });
 
+    // update user role
+    app.patch('/user/role')
+
     //get all rooms
     app.get("/rooms", async (req, res) => {
       const category = req.query.category;
