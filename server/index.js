@@ -54,6 +54,26 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
+    // verify admin middleware
+    const verifyAdmin = async (req, res, next) => {
+      const user=req.user
+      const query = { email: user?.email };
+      const result = await usersCollection.findOne(query);
+      if (!result || result.role !== "admin") {
+        return res.status(401).send({ message: "unauthorized access" });
+      }
+      next();
+    }
+     // verify host middleware
+     const verifyHost = async (req, res, next) => {
+      const user=req.user
+      const query = { email: user?.email };
+      const result = await usersCollection.findOne(query);
+      if (!result || result.role !== "host") {
+        return res.status(401).send({ message: "unauthorized access" });
+      }
+      next();
+    }
     // room db collection
     const roomsCollection = client.db("stayvista").collection("rooms");
     // user db collection
@@ -127,7 +147,7 @@ async function run() {
     });
 
     // get all user data from db
-    app.get("/users", async (req, res) => {
+    app.get("/users", verifyToken, verifyAdmin, async (req, res) => {
       const result = await usersCollection.find().toArray();
       res.send(result);
     });
@@ -153,15 +173,15 @@ async function run() {
       res.send(result);
     });
 
-    //save add room data
-    app.post("/room", async (req, res) => {
+    //save add room database
+    app.post("/room",verifyToken,verifyHost, async (req, res) => {
       const roomData = req.body;
       const result = await roomsCollection.insertOne(roomData);
       res.send(result);
     });
 
     //get all rooms for host
-    app.get("/my-listings/:email", async (req, res) => {
+    app.get("/my-listings/:email",verifyToken,verifyHost, async (req, res) => {
       const email = req.params.email;
       let query = {};
 
@@ -171,7 +191,7 @@ async function run() {
     });
 
     //delete a room
-    app.delete("/room/:id", async (req, res) => {
+    app.delete("/room/:id",verifyToken,verifyHost, async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await roomsCollection.deleteOne(query);
