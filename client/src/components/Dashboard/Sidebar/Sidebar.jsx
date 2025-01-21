@@ -11,16 +11,26 @@ import MenuItem from "./Menu/MenuItem";
 import HostMenu from "./Menu/HostMenu";
 import GuestMenu from "./Menu/GuestMenu";
 import AdminMenu from "./Menu/AdminMenu";
+import ToggleBtn from "../../Shared/Button/ToggleBtn";
 
 const Sidebar = () => {
   const { logOut } = useAuth();
   const [isActive, setActive] = useState(false);
+  const [toggle,setToggle]=useState(true)
+  
   const [role] = useRole();
 
   // Sidebar Responsive Handler
   const handleToggle = () => {
     setActive(!isActive);
   };
+
+  // toggle handler
+  const toggleHandler=(event)=>{
+    setToggle(event.target.checked)
+    
+
+  }
   return (
     <>
       {/* Small Screen Navbar */}
@@ -71,7 +81,7 @@ const Sidebar = () => {
           {/* Nav Items */}
           <div className="flex flex-col justify-between flex-1 mt-6">
             {/* Conditional toggle button here.. */}
-
+            {role==='host' && <ToggleBtn toggle={toggle} toggleHandler={toggleHandler}></ToggleBtn>}
             {/*  Menu Items */}
 
             <nav>
