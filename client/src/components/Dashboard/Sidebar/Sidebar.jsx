@@ -93,9 +93,9 @@ const Sidebar = () => {
               ></MenuItem>
 
               {role === 'guest' && <GuestMenu></GuestMenu>}
-              {role === 'host' && <HostMenu></HostMenu>}
+              {role === 'host' ? toggle? <HostMenu></HostMenu> : <GuestMenu></GuestMenu>: undefined}
               
-              {role === 'admin' &&<AdminMenu></AdminMenu>}
+              {role === 'admin' && <AdminMenu></AdminMenu>}
             </nav>
           </div>
         </div>
