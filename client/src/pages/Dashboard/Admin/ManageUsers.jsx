@@ -1,13 +1,13 @@
 import { Helmet } from 'react-helmet-async'
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
-import useAuth from '../../../hooks/useAuth';
+
 import { useQuery } from '@tanstack/react-query';
 import LoadingSpinner from '../../../components/Shared/LoadingSpinner';
 import UserDataRow from '../../../components/Dashboard/TableRows/UserDataRow';
 
 const ManageUsers = () => {
     const axiosSecure = useAxiosSecure();
-  const { user,loading } = useAuth();
+
     //fetch users data
   const { data: users = [], isLoading,refetch } = useQuery({
     queryKey: ["users"],
@@ -16,7 +16,7 @@ const ManageUsers = () => {
       return data;
     },
   });
-  if (isLoading || loading) return <LoadingSpinner></LoadingSpinner>;
+  if (isLoading ) return <LoadingSpinner></LoadingSpinner>;
 
 
   return (
