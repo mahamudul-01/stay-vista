@@ -3,11 +3,13 @@
 // https://stripe.com/docs/payments/accept-a-payment#web
 
 
+
 import {CardElement,useElements, useStripe} from '@stripe/react-stripe-js';
 
 import './CheckoutForm.css';
+import PropTypes from 'prop-types';
 
-const CheckoutForm = () => {
+const CheckoutForm = ({closeModal,bookingInfo}) => {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -61,11 +63,33 @@ const CheckoutForm = () => {
           },
         }}
       />
-      <button type="submit" disabled={!stripe}>
-        Pay
-      </button>
+     
+      <div className='flex mt-2 justify-around'>
+                <button
+                type="submit" disabled={!stripe}
+                      
+                      className='inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2'
+                      onClick={closeModal}
+                    >
+                      Pay Now $ {bookingInfo?.price}
+                    </button>
+                    <button
+                    
+                      type='button'
+                      className='inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2'
+                    >
+                        Cancel
+                    </button>
+                    
+                  </div>
+
     </form>
   );
+};
+
+CheckoutForm.propTypes = {
+    closeModal: PropTypes.func.isRequired,
+    bookingInfo: PropTypes.object.isRequired
 };
 
 
