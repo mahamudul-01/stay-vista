@@ -1,6 +1,8 @@
 const express = require("express");
-const app = express();
 require("dotenv").config();
+const app = express();
+
+
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const {
@@ -12,6 +14,7 @@ const {
 const jwt = require("jsonwebtoken");
 
 const port = process.env.PORT || 8000;
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 // middleware
 const corsOptions = {
@@ -107,6 +110,23 @@ async function run() {
         res.status(500).send(err);
       }
     });
+
+    // create payment intent
+    app.post("/create-payment-intent", verifyToken, async (req, res) => {
+      const price = req.body.price;
+      const priceInCents = parseFloat(price)*100 ;
+      if(!price || priceInCents<=1) return
+      const {client_secret} = await stripe.paymentIntents.create({
+        amount: priceInCents,
+        currency: "usd",
+        automatic_payment_methods:{
+          enabled:true,
+        },
+      });
+
+      res.send({clientSecret:client_secret});
+      
+  });
 
     //get a user info by email from db
     app.get('/user/:email', async (req,res)=>{

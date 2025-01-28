@@ -8,10 +8,33 @@ import {CardElement,useElements, useStripe} from '@stripe/react-stripe-js';
 
 import './CheckoutForm.css';
 import PropTypes from 'prop-types';
+import { useEffect, useState, } from 'react';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
+import { set } from 'date-fns';
+
 
 const CheckoutForm = ({closeModal,bookingInfo}) => {
   const stripe = useStripe();
   const elements = useElements();
+  const axiosSecure=useAxiosSecure()
+
+
+  const [clientSecret, setClientSecret] = useState("");
+ useEffect(()=>{
+    if(bookingInfo?.price && bookingInfo?.price>1){
+        getClientSecret({price:bookingInfo?.price})
+      
+    }
+
+ },[])
+
+  
+
+  const getClientSecret= async price=>{
+    const {data}=await axiosSecure.post('/create-payment-intent', price)
+    console.log(data);
+    setClientSecret(data.clientSecret)
+  }
 
   const handleSubmit = async (event) => {
     // Block native form submission.
